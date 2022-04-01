@@ -1,0 +1,115 @@
+#UC1
+  create database AddressBook_services;
+  show databases;
+  use AddressBook_services;
+
+#UC2
+  create table Address_book(
+     id int unsigned not null auto_increment,
+     fname varchar(15) not null,
+     lname varchar(10) not null,
+     address varchar(100) not null,
+     city varchar(50) not null,
+     state varchar(50) not null,
+     zip int not null,
+     phone long not null,
+     email varchar(100) not null,
+     primary key (id)
+  );
+  select * from address_book;
+
+#UC3
+  insert into Address_book(fname, lname, address,city, state, zip, phone, email) values
+    ('Virendra', 'Rana', 'shanti nagar','Nagpur', 'Maharastra',414501,7604315270, 'virendrarana@gmail.com' ),
+    ('Shreya', 'Bisht','military colony', 'Sabdarjung', 'Delhi', 845700, 7138975257, 'shreyab@gmail.com' ),
+    ('Om', 'Parab','xyz colony', 'kolkata', 'West Bengal', 794550, 81450945877, 'parabom@gmail.com' ),
+    ('Ramesh', 'Avasthi', 'abc colony','chennai', 'TamilNadu', 7125487, 81494545879, 'ramesh3Avasthi@gmail.com' );
+
+#UC4
+   UPDATE Address_book
+   SET city = 'Bangalore',
+   state = 'Karnataka',
+   zip = 852369
+   WHERE fname = 'Om';
+
+#UC5
+   DELETE FROM  Address_book
+   WHERE fname = 'Om';
+
+#UC6
+   SELECT * FROM Address_book
+   where city = 'Chennai' or state = 'TamilNadu';
+
+#UC7
+   SELECT COUNT(city or state)
+   FROM Address_book;
+
+#UC8
+   select fname
+    from Address_book
+    order by fname asc;
+  
+#UC9
+   Alter table Address_book add type varchar(15) after lname;
+   update  Address_book set type='Family' where fname ='Virendra';
+   update  Address_book set type='Friends' where fname  ='Ramesh';
+   update  Address_book set type='Friends' where fname  ='Om';
+   update  Address_book set type='Profession' where fname  ='Shreya';
+
+#UC10
+   SELECT COUNT(type) AS Number_Of_Contact_Person 
+   FROM Address_book;
+
+#UC11
+   insert into Address_book(fname, lname,type, address, city, state, zip, phone, email) values
+    ('Karan','Kotwal','Friend','Andheri', 'Mumbai', 'Maharastra',414501, 8604315270, 'kk1995@gmail.com' );
+    ('Soniya','Santosh','Family','Gautam nagar', 'Nashik', 'Maharastra',414504, 7603679860, 'soniya99@gmail.com' );
+
+#UC12
+  CREATE TABLE  contacts
+     (firstName varchar(50) NOT NULL, lastName varchar(50) NOT NULL,
+      mobileNumber varchar(20) NOT NULL,email varchar(50) NOT NULL, PRIMARY KEY(firstName));
+  desc contacts;
+  insert into contacts values('Virendra', 'Rana',7604315270, 'virendrarana@gmail.com'),
+    ('Shreya', 'Bisht',7138975257, 'shreyab@gmail.com' ),
+    ('Om', 'Parab',81450945877, 'parabom@gmail.com' );
+  select * from contacts;
+
+  create table address (
+     zip varchar(6) not null,
+     city varchar(30) not null,
+     state varchar(30) not null,
+     address varchar(100) not null,
+     primary key(zip));
+  desc address;
+  insert into address values 
+    (414501,'Nagpur', 'Maharastra','shanti nagar'),
+    (845700,'Sabdarjung', 'Delhi','military colony');
+  select * from address;
+  
+  create table contacts_address(
+     firstname varchar(30) not null,
+     zip varchar(6) not null,
+     foreign key (firstname) references contacts(firstname),
+     foreign key (zip) references address(zip));
+  desc contacts_address;
+  insert into contacts_address values ('Virendra','414501');
+  insert into contacts_address values ('Shreya','845700');
+  select * from contacts_address;
+
+  create table relations (type varchar(15),primary key(type));
+  desc relations;
+  insert into relations values('Family'),('Profession');
+  select * from relations;
+
+  create table contacts_relation(
+     firstname varchar(30) not null,
+     type varchar(15),
+     foreign key(firstname) references contacts(firstname),
+     foreign key(type) references relations(type));
+  desc contacts_relation;
+  insert into contacts_relation values
+    ( 'Virendra', 'Family'),
+    ('Shreya','Profession');
+  select * from contacts_relation;
+ 
